@@ -7,13 +7,17 @@ import org.apache.spark.sql.Column;
 import org.apache.spark.sql.functions;
 import org.apache.spark.sql.SparkSession;
 import org.dom4j.Element;
+import org.dom4j.Node;
 
 import com.penspark.steps.StepInterface;
 import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.lit;
 import static org.apache.spark.sql.functions.upper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class AddConst extends AddConstMeta implements  StepInterface 
 {
@@ -49,16 +53,27 @@ public class AddConst extends AddConstMeta implements  StepInterface
 
 	@Override
 	public void workout(Dataset<Row> s, SparkSession spark) {
-		//String operations.
-		//s.createOrReplaceTempView("StringOperatingtable");
-		// Column n = upper(s.col("Name"));
-		 String[] Colname = s.columns();
-		 this.oper = super.getalloperator(Colname);
-		  
-		String[] Colname2 = this.oper.toArray(new String[0]);
-		log.info(">>>:"+Arrays.deepToString(Colname2));
-		// String[] Colname1 = {"upper(Name) as Name" , "Class" , "upper(Dorm) as Dorm" , "upper(Room) as Room" , "GPA"}; 
-		 this.Output =s.selectExpr(Colname2); 
-		 
+		
+		// this.Output =s.selectExpr(Colname2); 
+		
+		List<Node> nodes2 = this.el.selectNodes("fields/field" );
+		Iterator<Node> iter2=nodes2.iterator();
+		while(iter2.hasNext()){
+			Element element2=(Element)iter2.next();
+			//this.Switchoptr.put(element2.elementText("target_step"), this.fieldfocus +" = '"+element2.elementText("value") +"'");
+			//          <aggregate>count</aggregate>
+	          //<subject>job_Title</subject>
+	          //<type>COUNT_DISTINCT</type>
+	          ///<valuefield/>
+			//log.info(element2.asXML());
+			
+			log.info("name:" + element2.elementText("name"));
+			log.info("type:" +element2.elementText("type"));
+			log.info("nullif:" +element2.elementText("nullif"));
+			
+			s = s.withColumn(element2.elementText("name"), lit(element2.elementText("nullif")));
+		}
+		
+		this.Output = s; 
 	}
 }

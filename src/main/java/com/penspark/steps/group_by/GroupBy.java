@@ -5,6 +5,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.Column;
 import org.apache.spark.sql.functions;
+import org.apache.spark.sql.catalyst.plans.logical.Aggregate;
 import org.apache.spark.sql.SparkSession;
 import org.dom4j.Element;
 
@@ -49,16 +50,15 @@ public class GroupBy extends GroupByMeta implements  StepInterface
 
 	@Override
 	public void workout(Dataset<Row> s, SparkSession spark) {
-		//String operations.
-		//s.createOrReplaceTempView("StringOperatingtable");
-		// Column n = upper(s.col("Name"));
-		 String[] Colname = s.columns();
-		 this.oper = super.getalloperator(Colname);
-		  
-		String[] Colname2 = this.oper.toArray(new String[0]);
+      Column[] Colname2 = this.operGroupBy.toArray(new Column[0]);
+      Column[] Agg = this.operAgg.toArray(new Column[0]);
 		log.info(">>>:"+Arrays.deepToString(Colname2));
-		// String[] Colname1 = {"upper(Name) as Name" , "Class" , "upper(Dorm) as Dorm" , "upper(Room) as Room" , "GPA"}; 
-		 this.Output =s.selectExpr(Colname2); 
+		  
+	//	String[] Colname2 = this.oper.toArray(new String[0]);
+		log.info(">>>::"+Arrays.deepToString(Agg));
+		// Dataset<Row> people_sorted1 = people.groupBy(er).agg(count(er).as("Count")); 
+		 
+		this.Output =s.groupBy(Colname2).agg(Agg[0]); 
 		 
 	}
 }

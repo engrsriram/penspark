@@ -19,12 +19,14 @@ public class SelectValues extends SelectValuesMeta implements  StepInterface
 {
 	Dataset<Row> Input = null;
 	Dataset<Row> Output = null;
-	ArrayList<String> oper =  new ArrayList<String>();
+	ArrayList<Column> oper =  new ArrayList<Column>();
+	ArrayList<Column> Metaoper =  new ArrayList<Column>();
+	//private Element ele;
 	//String[] oper;
 	static Logger log = Logger.getLogger(SelectValues.class);
 	public SelectValues(Element element) {
 		super(element);
-		
+		//this.ele = element;
 	}
 
 
@@ -49,16 +51,20 @@ public class SelectValues extends SelectValuesMeta implements  StepInterface
 
 	@Override
 	public void workout(Dataset<Row> s, SparkSession spark) {
-		//String operations.
-		//s.createOrReplaceTempView("StringOperatingtable");
-		// Column n = upper(s.col("Name"));
 		 String[] Colname = s.columns();
-		 this.oper = super.getalloperator(Colname);
+		 this.oper = super.getalloper(Colname);
 		  
-		String[] Colname2 = this.oper.toArray(new String[0]);
-		log.info(">>>:"+Arrays.deepToString(Colname2));
-		// String[] Colname1 = {"upper(Name) as Name" , "Class" , "upper(Dorm) as Dorm" , "upper(Room) as Room" , "GPA"}; 
-		 this.Output =s.selectExpr(Colname2); 
+		 Column[] Colname2 = this.oper.toArray(new Column[0]);
+		 String[] rmcolmn = this.operremove.toArray(new String[0]);
+		log.info(">>>:"+Arrays.deepToString(Colname2)); 
+		 this.Output =s.select(Colname2).drop(rmcolmn); 
+		 
+		 
+		 String[] UpdatedColmn = this.Output.columns();
+		 log.info(">>> Updated:"+Arrays.deepToString(UpdatedColmn));
+		 Column[] MetaColum = super.getallMetaoper(UpdatedColmn).toArray(new Column[0]);
+		 log.info(">>> Updated.MetaColum:"+Arrays.deepToString(MetaColum));
+		 this.Output =this.Output.select(MetaColum); 
 		 
 	}
 }

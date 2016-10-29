@@ -25,8 +25,8 @@ class FilterRowsMeta  {
 		
 		@SuppressWarnings("unchecked")
 		List<Node> compare = element.selectNodes("compare"); //$NON-NLS-1$
-    	@SuppressWarnings("unchecked")
-    	List<Node> condnode =  element.selectNodes("condition"); //$NON-NLS-1$
+    	//@SuppressWarnings("unchecked")
+  //  	List<Node> condnode =  element.selectNodes("condition"); //$NON-NLS-1$
     	for(Node W: compare)
 		{
 			//.selectNodes("fields/field")
@@ -102,6 +102,7 @@ class FilterRowsMeta  {
 		log.info(element2.elementText("negated"));
 		if(element2.elements("conditions").size()> 0){
 			log.info("<<>>");
+			@SuppressWarnings("unchecked")
 			List<Node> nodesqw = element2.selectNodes("conditions" );
 			log.info(nodesqw.size());
 	        Iterator<Node> iter2=nodes1.iterator();

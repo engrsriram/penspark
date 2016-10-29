@@ -7,22 +7,19 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.dom4j.Element;
-
+import org.apache.spark.api.java.function.*;
 import com.penspark.steps.StepInterface;
 
 public class SwitchCase extends SwitchCaseMeta implements  StepInterface 
 {
 	Dataset<Row> Input = null;
 	ArrayList<Dataset<Row>> Output = new ArrayList<Dataset<Row>>();
-	String SqlString = "";
+	Dataset<Row> DefaultOutput = null;
+	//String SqlString = "";
 	static Logger log = Logger.getLogger(SwitchCase.class);
-	SwitchCase(Element element) {
+	public SwitchCase(Element element) {
 		super(element);
-		// TODO Auto-generated constructor stub
-		
-		// collect an xml into SQL
-		
-		this.SqlString = "";
+		//this.SqlString = "";
 	}
 
 
@@ -35,7 +32,14 @@ public class SwitchCase extends SwitchCaseMeta implements  StepInterface
 	@Override
 	public Dataset<Row> getOutput(String name) {
 		int index = this.Destinations.indexOf(name);
-		return this.Output.get(index);
+		if(index >= 0){
+			//log.info(this.Output.get(index).count());
+			return this.Output.get(index);
+		}
+		else {
+			log.info(this.DefaultOutput.count());
+			return this.DefaultOutput;
+		}
 	}
 
 	@Override
@@ -47,10 +51,22 @@ public class SwitchCase extends SwitchCaseMeta implements  StepInterface
 
 	@Override
 	public void workout(Dataset<Row> s, SparkSession spark) {
-		 s.createOrReplaceTempView("ComOperation");
+		// s.createOrReplaceTempView("ComOperation");
+		log.info("Working out of Switch case");
+		
+        Dataset<Row> buff = null;
+        this.DefaultOutput = s;
+		
         for(String Opr : this.Operatators){
-        	this.Output.add(s.filter(Opr));
-        }
+        	//log.info(Opr);
+        	//buff = s.filter("job_Title == 'Engineer'");
+        	//
+        	buff = s.filter(Opr);
+			log.info("getting count of dataset: "+ Opr +" :"+buff.count());
+        	this.Output.add(buff);
+			this.DefaultOutput = this.DefaultOutput.except(buff);
+			
+        }	
 		 
 	}
 }

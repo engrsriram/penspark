@@ -12,11 +12,18 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 
 import com.penspark.steps.*;
+import com.penspark.steps.add_const.AddConst;
 import com.penspark.steps.filter_rows.FilterRows;
+import com.penspark.steps.group_by.GroupBy;
+import com.penspark.steps.select_values.SelectValues;
+import com.penspark.steps.set_field_value.SetFieldValue;
+import com.penspark.steps.set_field_value_const.SetFieldValueConst;
+import com.penspark.steps.sort_rows.SortRows;
 import com.penspark.steps.textfileinput.TextFileInput;
 import com.penspark.steps.textfileoutput.TextFileOutput;
 import com.penspark.steps.transdummy.transdummy;
 import com.penspark.steps.stringoperations.StringOperations;
+import com.penspark.steps.switch_case.SwitchCase;
 
 /*
  * Todo:
@@ -53,11 +60,38 @@ public class ListStep implements Iterable<Step> {
 				break;
 			case "TextFileOutput":
 				s.step = new TextFileOutput(element);
-				break;				
+				break;	
+			case "SwitchCase":
+				s.step = new SwitchCase(element);
+				break;
 			case "FilterRows":
 				log.info("Filter Row found");
 				s.step = new FilterRows(element);
 				break;	
+			case "SortRows":
+				//log.info("Filter Row found");
+				s.step = new SortRows(element);
+				break;
+			case "GroupBy":
+				//log.info("Filter Row found");
+				s.step = new GroupBy(element);
+				break;
+			case "SelectValues":
+				//log.info("Filter Row found");
+				s.step = new SelectValues(element);
+				break;
+			case "Constant":
+				//log.info("Filter Row found");
+				s.step = new AddConst(element);
+				break;
+			case "SetValueField":
+				//log.info("Filter Row found");
+				s.step = new SetFieldValue(element);
+				break;
+			case "SetValueConstant":
+				//log.info("Filter Row found");
+				s.step = new SetFieldValueConst(element);
+				break;
 			default:
 				s.step = new transdummy(element);
 				break;
