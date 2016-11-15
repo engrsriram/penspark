@@ -26,6 +26,8 @@ public class TextFileOutput extends TextFileOutputMeta  implements  StepInterfac
 		
        // s.foreach((ForeachFunction<Row>) person -> {System.out.print(person.get(person.fieldIndex("Name")));System.out.println(person.get(1));});
         log.info("Filename" + this.filename);
+        log.info("Data before writing into file");
+        s.show();
         //.save(this.filename);
         
         
@@ -36,12 +38,15 @@ public class TextFileOutput extends TextFileOutputMeta  implements  StepInterfac
         .save(this.filename);
         */
         //String[] er = {"Name" , "Class", "Dorm" , "Room", "GPA"};
-        //String[] er = this.Collist;
+        String[] er = this.Collist;
+        log.info("output file list" + er);
         s.coalesce(1).selectExpr(this.Collist).write()
         .format("com.databricks.spark.csv")
-        .option("header", "true")
+        .option("header", "true").option("dateFormat", "MM/DD/YYYY")
         .save(this.filename);
 //        .save("E:\\Datasets\\out\\file.txt");
+        
+        s.printSchema();
         
 		
 	}

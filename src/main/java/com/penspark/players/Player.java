@@ -7,6 +7,7 @@ import com.penspark.inits.ListStep;
 import com.penspark.inits.ListofHopes;
 import com.penspark.inits.Step;
 import com.penspark.inits.Step.Status;
+import com.penspark.inits.Step.StepInType;
 import com.penspark.inits.TransHopes;
 
 public class Player extends PlayerMeta {
@@ -74,22 +75,33 @@ public class Player extends PlayerMeta {
 		 * Step Should run only aloud to workout only if the all count of previous Steps Completed 
 		 */
 		boolean still_working = false;
-		log.info("STARTED:All started Started");
+		log.info("STARTED:All started working");
 		do {
 			for (Step s : this.steps) {
 				if (!s.is_completed()) {
 					
 					if (s.getparentstep().size() == 0 && s.getchildstep().size() == 0) {
-						log.info("0 to 0 process step found. so Simply marked as Complete");
+						log.info("0 to 0 process step found. so Simply marked as Complete:"+ s.getName());
 						s.SetStatus(Status.Completed);
 
 					} else if (this.steps.CheckparrentCompleted(s.getName())) 
 					{
 						log.info("As parent finished workingout on :" + s.getName());
 						
+						
+						// if Current step is as Lookup step , then i need to get both result and pass it as argument 
+						// that argument will be used as the 
+						if(s.getstepInType().equals(StepInType.Normal)){
 						s.step.workout(this.steps.GetCompletedResult(s.getName()) , spark);
 						s.SetStatus(Status.Completed);
-						log.info("working result:" + s.getStatus());
+						}
+						else {
+							s.step.workout(this.steps.GetCompletedResult(s.getName()) , spark);
+							s.SetStatus(Status.Completed);
+						}
+						
+						//s.getType();
+						//log.info("working result:" + s.getStatus());
 					}
 					else if (s.getparentstep().size() == 0){
 

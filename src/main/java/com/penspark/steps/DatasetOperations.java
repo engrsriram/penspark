@@ -29,6 +29,11 @@ public class DatasetOperations {
 			log.info("only b is valid");
 			t = b;
 		}
+		else
+		{
+			log.info("Both A and B are null so resulting in null dataset t");
+			t = b;
+		}
 		log.info("Union Operation Completed");
 		return t;
 	}

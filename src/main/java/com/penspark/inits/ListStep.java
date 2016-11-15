@@ -11,6 +11,7 @@ import org.apache.spark.sql.Row;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
+import com.penspark.inits.Step.StepInType;
 import com.penspark.steps.*;
 import com.penspark.steps.add_const.AddConst;
 import com.penspark.steps.filter_rows.FilterRows;
@@ -19,10 +20,12 @@ import com.penspark.steps.select_values.SelectValues;
 import com.penspark.steps.set_field_value.SetFieldValue;
 import com.penspark.steps.set_field_value_const.SetFieldValueConst;
 import com.penspark.steps.sort_rows.SortRows;
+import com.penspark.steps.stream_lookup.StreamLookUp;
 import com.penspark.steps.textfileinput.TextFileInput;
 import com.penspark.steps.textfileoutput.TextFileOutput;
 import com.penspark.steps.transdummy.transdummy;
 import com.penspark.steps.stringoperations.StringOperations;
+import com.penspark.steps.strings_cut.StringsCut;
 import com.penspark.steps.switch_case.SwitchCase;
 
 /*
@@ -92,6 +95,15 @@ public class ListStep implements Iterable<Step> {
 				//log.info("Filter Row found");
 				s.step = new SetFieldValueConst(element);
 				break;
+			case "StringCut":
+				//log.info("Filter Row found");
+				s.step = new StringsCut(element);
+				break;
+			case "":				
+				//log.info("LookUp Setup on the way");
+				s.setStepInType(StepInType.Lookup);
+				s.step = new StreamLookUp(element);
+				break;
 			default:
 				s.step = new transdummy(element);
 				break;
@@ -127,6 +139,7 @@ public class ListStep implements Iterable<Step> {
     		log.info(l.toString());
     		if(!l.isEmpty()){
     			if(l.contains(name)){
+    			log.info("Geting result Dataset of step 'name'");
     			Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
     			}
     		}

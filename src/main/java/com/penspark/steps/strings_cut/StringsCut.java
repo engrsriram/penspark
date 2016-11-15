@@ -52,13 +52,16 @@ public class StringsCut extends StringsCutMeta implements  StepInterface
 		//String operations.
 		//s.createOrReplaceTempView("StringOperatingtable");
 		// Column n = upper(s.col("Name"));
+		log.info("Showing input before String cut operations");
+		s.show();
 		 String[] Colname = s.columns();
 		 this.oper = super.getalloperator(Colname);
 		  
 		String[] Colname2 = this.oper.toArray(new String[0]);
-		log.info(">>>:"+Arrays.deepToString(Colname2));
+		log.info("String cut input:"+Arrays.deepToString(Colname2));
 		// String[] Colname1 = {"upper(Name) as Name" , "Class" , "upper(Dorm) as Dorm" , "upper(Room) as Room" , "GPA"}; 
 		 this.Output =s.selectExpr(Colname2); 
+		 this.Output.printSchema();
 		 
 	}
 }

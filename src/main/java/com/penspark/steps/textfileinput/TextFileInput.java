@@ -2,11 +2,16 @@ package com.penspark.steps.textfileinput;
 
 import java.io.File;
 
+import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.lit;
+
 import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.dom4j.Element;
+
+import com.penspark.steps.DatasetOperations;
 import com.penspark.steps.StepInterface;
 
 public class TextFileInput extends TextFileInputMeta implements  StepInterface
@@ -60,15 +65,31 @@ public class TextFileInput extends TextFileInputMeta implements  StepInterface
 				    .load("E:\\Datasets\\in\\file.csv");*/
 			
 	
-			this.Output =  spark.read()
-				    .format("com.databricks.spark.csv")
-				    .schema(this.Schemafinal)    
-				    .option("header", "true")
-				    .load(this.filenm[0].getAbsolutePath());
+			for(int i =0;i < this.filenm.length; i++){
+			
+				Dataset<Row> tempdf = spark.read()
+					    .format("com.databricks.spark.csv")
+					    .schema(this.Schemafinal).options(this.options)    
+					    //.option("header", "true")
+					    .load(this.filenm[i].getAbsolutePath());
+				if(!(this.includeHeader.isEmpty())){
+					tempdf = tempdf.withColumn(this.includeHeader, lit(this.filenm[i].getAbsolutePath()));
+				}
+				//tempdf.show();
+				
+				log.info("tempdf contains:"+ tempdf.count());
+
+			this.Output = DatasetOperations.combineset(this.Output, tempdf);
+			//this.Output.union(tempdf);
+				log.info("total count df contains:"+ this.Output.count());
+			}
+			
+			
 				log.info("Textfileinput is working now"); 
+				//this.Output.show();
 
 		} catch (Exception e) {
-			log.error("Schemafinal - bracked"+ e.getMessage());
+			log.error("Something went wrong when reading files. "+ e.getMessage());
 		}
 		
 	//	this.Output.show();

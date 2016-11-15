@@ -106,34 +106,12 @@ class StreamLookUpMeta  {
 	}
 
 
+	public ArrayList<String> getConditionOptr(String[] ActualCol)  {
+
+		return this.operMaster;
+	}
 	public ArrayList<String> getalloperator(String[] ActualCol)  {
 
-		 log.info("ActualCol:"+Arrays.deepToString(ActualCol));
-		 log.info("this.operend:"+Arrays.toString(this.operend.toArray()));
-		for(String Coln : ActualCol){
-			 boolean Changed = false;
-			for(String op : this.operend)
-			 {
-				 
-				 
-				 // find last word in this.operend 
-				 // check whether it matches with ActualCol. 
-				 // if it matches then add.operMaster with this.operend
-				 //else copy ActualCol to operMaster
-
-				 String op1 = op.substring(op.lastIndexOf(" ")+1);
-				 if(Coln.equals(op1)){
-					 this.operMaster.add(op);
-					 Changed = true;
-				 }
-			 }
-			
-			if(!Changed) {
-				 this.operMaster.add(Coln);
-			 }
-			 
-		 }
-	
 		return this.operMaster;
 	}
 }

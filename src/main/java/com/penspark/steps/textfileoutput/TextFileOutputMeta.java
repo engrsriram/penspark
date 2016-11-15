@@ -57,7 +57,12 @@ public class TextFileOutputMeta
     			
         		log.info("Result:" + result + ", n:" + n);
         		log.info("trim_type" + element2.elementText("trim_type"));
- 				if(!element2.elementText("trim_type").isEmpty()){
+ 				
+        		if(!element2.elementText("type").isEmpty()){
+        			//result = "LTRIM ( " + result + " )";
+ 				}
+        		
+        		if(!element2.elementText("trim_type").isEmpty()){
  					switch (element2.elementText("trim_type")) {
 					case "left":
 						result = "LTRIM ( " + result + " )";

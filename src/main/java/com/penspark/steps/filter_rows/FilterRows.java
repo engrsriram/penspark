@@ -41,7 +41,9 @@ public class FilterRows extends FilterRowsMeta implements  StepInterface
 	public void workout(Dataset<Row> s, SparkSession spark) {
 		 //s.createOrReplaceTempView("ComOperation");
 		//this.Filter_Condition
-		   this.Output_true = s.filter("job_Title like '%Engineer%'");
+		   //this.Output_true = s.filter("job_Title like '%Engineer%'");
+		this.Output_true = s.filter(this.Filter_Condition);
+		   
 		   if(!this.option.isEmpty()){
 			   this.Output_false = s.except(this.Output_true);
 			}

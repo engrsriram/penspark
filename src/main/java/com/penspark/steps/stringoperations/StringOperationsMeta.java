@@ -94,9 +94,9 @@ class StringOperationsMeta  {
 				}
 				log.info("out_stream_name" + element2.elementText("out_stream_name"));
 				if(element2.elementText("out_stream_name").isEmpty()){
-        			result  = result + " as " + n.toString();
+        			result  = result + " as " + n.toString() +"^" + n.toString();
 				} else {
-					result  = result + " as " + element2.elementText("out_stream_name");
+					result  = result + " as " + element2.elementText("out_stream_name") +"^" + n.toString();
         		}
 				
 				log.info("Generated Result:" + result);
@@ -121,9 +121,10 @@ class StringOperationsMeta  {
 				 // if it matches then add.operMaster with this.operend
 				 //else copy ActualCol to operMaster
 
-				 String op1 = op.substring(op.lastIndexOf(" ")+1);
+				 String op1 = op.substring(op.lastIndexOf("^")+1);
+				 String op2 = op.substring(0 , op.lastIndexOf("^"));
 				 if(Coln.equals(op1)){
-					 this.operMaster.add(op);
+					 this.operMaster.add(op2);
 					 Changed = true;
 				 }
 			 }

@@ -3,15 +3,10 @@ package com.penspark.steps.stringoperations;
 import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.Column;
-import org.apache.spark.sql.functions;
 import org.apache.spark.sql.SparkSession;
 import org.dom4j.Element;
 
 import com.penspark.steps.StepInterface;
-import static org.apache.spark.sql.functions.col;
-import static org.apache.spark.sql.functions.upper;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 

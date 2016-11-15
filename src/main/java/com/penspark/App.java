@@ -41,11 +41,12 @@ public class App {
 		        SparkConf conf = new SparkConf().setMaster("local").setAppName("Example App");
 
 		        JavaSparkContext sc = new JavaSparkContext(conf);
-		        SQLContext sqlContext = new SQLContext(sc);
+		        @SuppressWarnings("deprecation")
+				SQLContext sqlContext = new SQLContext(sc);
 		 
 		       SparkSession spark = SparkSession
 		                .builder()
-		                .appName("Java Spark SQL Example")
+		                .appName("Pentaho Logic as Spark")
 		                .config("spark.some.config.option", "some-value")
 		                .config("spark.sql.warehouse.dir", "file:///C:/tmp/") 
 		                .getOrCreate();

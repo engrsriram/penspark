@@ -42,6 +42,8 @@ public class Step {
 	
 	public enum Status {Waiting, Running, Completed , Failed};
 	public enum StepType {Zero_to_Zero , Zero_to_one , one_to_Zero , One_to_One, One_to_Many, Many_to_One , Many_to_Many};
+	public enum StepInType {Normal , Lookup };
+	StepInType  CurrentInputType = StepInType.Normal;
 	Status CurrentStatus = Status.Waiting;
 	StepType CurrentStepType = StepType.Zero_to_Zero;
 	Map<String, String> Column_List ;
@@ -71,6 +73,14 @@ public class Step {
 		Name = name;
 	}
 	
+	public StepInType getstepInType()
+	{
+		return this.CurrentInputType;
+	}
+	public void setStepInType(StepInType r)
+	{
+		this.CurrentInputType = r;
+	}
 	public String getType() {
 		return Type;
 	}
