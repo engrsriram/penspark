@@ -7,8 +7,7 @@ import org.apache.spark.sql.SparkSession;
 import org.dom4j.Element;
 
 import com.penspark.steps.StepInterface;
-
-public class FilterRows extends FilterRowsMeta implements  StepInterface 
+ public class FilterRows extends FilterRowsMeta implements  StepInterface 
 {
 	Dataset<Row> Input = null;
 	Dataset<Row> Output_true = null;
@@ -36,9 +35,9 @@ public class FilterRows extends FilterRowsMeta implements  StepInterface
 	@Override
 	public void Setinput(Dataset<Row> s) {
 		this.Input = s;
-	}
+	}   
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		 //s.createOrReplaceTempView("ComOperation");
 		//this.Filter_Condition
 		   //this.Output_true = s.filter("job_Title like '%Engineer%'");
@@ -49,5 +48,10 @@ public class FilterRows extends FilterRowsMeta implements  StepInterface
 			}
 		   
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

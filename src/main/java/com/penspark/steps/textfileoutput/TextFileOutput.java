@@ -20,7 +20,7 @@ public class TextFileOutput extends TextFileOutputMeta  implements  StepInterfac
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		log.info("TextFileOutput --Started working now");
 		 //Flat file output. 
 		
@@ -42,7 +42,7 @@ public class TextFileOutput extends TextFileOutputMeta  implements  StepInterfac
         log.info("output file list" + er);
         s.coalesce(1).selectExpr(this.Collist).write()
         .format("com.databricks.spark.csv")
-        .option("header", "true").option("dateFormat", "MM/DD/YYYY")
+        .option("header", "true").option("dateFormat", "MM/dd/yyyy")
         .save(this.filename);
 //        .save("E:\\Datasets\\out\\file.txt");
         
@@ -51,6 +51,11 @@ public class TextFileOutput extends TextFileOutputMeta  implements  StepInterfac
 		
 	}
 
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
+	}
+	
 	@Override
 	public String getString() {
 		

@@ -25,7 +25,10 @@ public interface  StepInterface {
 	Map<String, String> In_Column_List = null ;
 	Map<String, String> Out_Column_List = null ;
 	
-	public void workout(Dataset<Row> s, SparkSession spark);
+	public void workout(SparkSession spark , Dataset<Row> s );
+	public void workout(SparkSession spark, Dataset<Row> l,Dataset<Row> r);
+//	public void workout(Dataset<Row> l,Dataset<Row> r, SparkSession spark);
+//	public void workout(SparkSession spark, Dataset<Row>... l);
 	//public Dataset<Row> getOutput();
 	public void Setinput(Dataset<Row> s);
 

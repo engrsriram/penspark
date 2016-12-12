@@ -99,10 +99,11 @@ public class ListStep implements Iterable<Step> {
 				//log.info("Filter Row found");
 				s.step = new StringsCut(element);
 				break;
-			case "":				
+			case "StreamLookup":				
 				//log.info("LookUp Setup on the way");
 				s.setStepInType(StepInType.Lookup);
 				s.step = new StreamLookUp(element);
+				
 				break;
 			default:
 				s.step = new transdummy(element);
@@ -132,6 +133,7 @@ public class ListStep implements Iterable<Step> {
 		return true;
 	}
 	public Dataset<Row> GetCompletedResult(String name) {
+		log.info("Get Completed Result:"+name);
 		Dataset<Row> Result = null;
     	for(Step s : bList)
     	{
@@ -139,12 +141,51 @@ public class ListStep implements Iterable<Step> {
     		log.info(l.toString());
     		if(!l.isEmpty()){
     			if(l.contains(name)){
-    			log.info("Geting result Dataset of step 'name'");
+    			log.info("for Step:" +name+ "merging exising output with:"+ s.getName());
     			Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
     			}
     		}
     	}
     	log.info("getting complete result");
+    	return Result;
+	}
+	public Dataset<Row> GetLeftResult(String name) {
+		log.info("Get LEFT Result:"+name);
+		Dataset<Row> Result = null;
+    	for(Step s : bList)
+    	{
+    		ArrayList<String> l = s.getchildstep();
+    		log.info(l.toString());
+    		if(!l.isEmpty()){
+    			if(l.contains(name)){
+    			log.info("Geting result Dataset of 'LeftResult'");
+    			Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
+    			}
+    		}
+    	}
+    	log.info("getting Left Complete list result");
+    	return Result;
+	}
+	public Dataset<Row> GetRightResult(String name) {
+		log.info("Get RIGHT Result:"+name);
+		/// Or Otherwise Lookup Step
+		// find the correct right from step Dataset and pass it as result. 
+		
+		
+		
+		Dataset<Row> Result = null;
+    	for(Step s : bList)
+    	{
+    		ArrayList<String> l = s.getchildstep();
+    		log.info(l.toString());
+    		if(!l.isEmpty()){
+    			if(l.contains(name)){
+    			log.info("Geting result Dataset of 'RightResult'");
+    			Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
+    			}
+    		}
+    	}
+    	log.info("getting Right Complete List result");
     	return Result;
 	}
 	public Dataset<Row> GetCompletedResult(String name, String name2) {

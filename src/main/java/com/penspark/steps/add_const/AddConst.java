@@ -52,7 +52,7 @@ public class AddConst extends AddConstMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		
 		// this.Output =s.selectExpr(Colname2); 
 		
@@ -75,5 +75,10 @@ public class AddConst extends AddConstMeta implements  StepInterface
 		}
 		
 		this.Output = s; 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

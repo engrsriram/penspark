@@ -50,7 +50,7 @@ public class SelectValues extends SelectValuesMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		 String[] Colname = s.columns();
 		 this.oper = super.getalloper(Colname);
 		  
@@ -66,5 +66,10 @@ public class SelectValues extends SelectValuesMeta implements  StepInterface
 		 log.info(">>> Updated.MetaColum:"+Arrays.deepToString(MetaColum));
 		 this.Output =this.Output.select(MetaColum); 
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

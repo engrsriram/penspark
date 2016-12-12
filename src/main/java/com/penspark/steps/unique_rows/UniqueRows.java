@@ -43,7 +43,7 @@ public class UniqueRows extends UniqueRowsMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		
 		 this.oper = super.getUniqOpr();
 		  
@@ -51,5 +51,10 @@ public class UniqueRows extends UniqueRowsMeta implements  StepInterface
 		log.info(">>>:"+Arrays.deepToString(Colname2)); 
 		 this.Output =s.dropDuplicates(Colname2); 
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

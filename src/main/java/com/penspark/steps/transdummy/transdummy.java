@@ -18,12 +18,16 @@ public class transdummy implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		log.info("This is dummy Step , so i don't do anything");
 		this.Output = s;
 		//return this.Output;
 	}
 
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
+	}
 	@Override
 	public String getString() {
 		return "Get-ST-String Operation";
@@ -35,6 +39,7 @@ public class transdummy implements  StepInterface
 		return this.Output;
 	}
 
+	
 	@Override
 	public void Setinput(Dataset<Row> s) {
 		// TODO Auto-generated method stub

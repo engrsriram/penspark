@@ -48,7 +48,7 @@ public class StringsCut extends StringsCutMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		//String operations.
 		//s.createOrReplaceTempView("StringOperatingtable");
 		// Column n = upper(s.col("Name"));
@@ -63,5 +63,10 @@ public class StringsCut extends StringsCutMeta implements  StepInterface
 		 this.Output =s.selectExpr(Colname2); 
 		 this.Output.printSchema();
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

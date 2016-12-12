@@ -1,6 +1,6 @@
 package com.penspark.inits;
 
-import java.util.List;
+//import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Element;
@@ -8,7 +8,7 @@ import org.dom4j.Element;
 
 public class TransHopes {
 	static Logger log = Logger.getLogger(TransHopes.class);
-	private static Class<?> PKG = TransHopes.class; // for i18n purposes, needed by Translator2!!   $NON-NLS-1$
+	//private static Class<?> PKG = TransHopes.class; // for i18n purposes, needed by Translator2!!   $NON-NLS-1$
 
 	public static final String XML_TAG = "hop";
 
@@ -54,14 +54,14 @@ public class TransHopes {
 		return to_step;
 	}
 
-	private Element searchStep(List<Element> steps, String name)
-	{
-		for (Element stepMeta : steps)
-			if (stepMeta.getName().equalsIgnoreCase(name))
-				return stepMeta;
-
-		return null;
-	}
+//	private Element searchStep(List<Element> steps, String name)
+//	{
+//		for (Element stepMeta : steps)
+//			if (stepMeta.getName().equalsIgnoreCase(name))
+//				return stepMeta;
+//
+//		return null;
+//	}
 
 	public Object clone()
 	{

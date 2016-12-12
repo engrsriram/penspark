@@ -51,7 +51,7 @@ public class SetFieldValue extends SetFieldValueMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		
 		
 		@SuppressWarnings("unchecked")
@@ -64,5 +64,10 @@ public class SetFieldValue extends SetFieldValueMeta implements  StepInterface
 		
 		 this.Output =s; 
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

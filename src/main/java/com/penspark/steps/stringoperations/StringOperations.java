@@ -43,7 +43,7 @@ public class StringOperations extends StringOperationsMeta implements  StepInter
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		//String operations.
 		//s.createOrReplaceTempView("StringOperatingtable");
 		// Column n = upper(s.col("Name"));
@@ -55,5 +55,10 @@ public class StringOperations extends StringOperationsMeta implements  StepInter
 		// String[] Colname1 = {"upper(Name) as Name" , "Class" , "upper(Dorm) as Dorm" , "upper(Room) as Room" , "GPA"}; 
 		 this.Output =s.selectExpr(Colname2); 
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

@@ -54,7 +54,7 @@ public class App {
 			}
 
 		} catch (Exception e) {
-			log.error("ERROR:" +  e.toString());
+			log.error("ERROR:" +  e.getMessage());
 		}
 		
 		/*

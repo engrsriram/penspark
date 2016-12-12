@@ -28,7 +28,7 @@ public class TextFileInput extends TextFileInputMeta implements  StepInterface
 
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		
 		/*log.info("Gather all the details about the Source File or multiple files");
 		log.info("Declare all the variable considerations , encloseres , separaters. etc");
@@ -95,6 +95,10 @@ public class TextFileInput extends TextFileInputMeta implements  StepInterface
 	//	this.Output.show();
 	}
 
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
+	}
 
 	@Override
 	public String getString() {

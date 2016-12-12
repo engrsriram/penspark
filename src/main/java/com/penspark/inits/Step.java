@@ -37,8 +37,8 @@ public class Step {
 	ArrayList<String> childstep = new ArrayList<String>();
 
 	Boolean Distribute = false;
-	Dataset<Row> Input;
-	Dataset<Row> Output;
+	//Dataset<Row> Input;
+	//Dataset<Row> Output;
 	
 	public enum Status {Waiting, Running, Completed , Failed};
 	public enum StepType {Zero_to_Zero , Zero_to_one , one_to_Zero , One_to_One, One_to_Many, Many_to_One , Many_to_Many};
@@ -119,13 +119,14 @@ public class Step {
 
 	
 	// parent child  step geting though.
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	public ArrayList<String> getparentstep(){
 		return this.parentstep;
 		
 	}
 	public ArrayList<String> getchildstep(){
-		return (ArrayList<String>) this.childstep;
+		//return (ArrayList<String>) this.childstep;
+		return this.childstep;
 	}
 	
 	// adding values
@@ -140,12 +141,9 @@ public class Step {
 	}
 	
 	public Status getStatus() {
-		// TODO Auto-generated method stub
-		//if(this.CurrentStatus)
 		return this.CurrentStatus;
 	}
 	public boolean is_completed() {
-		// TODO Auto-generated method stub
 		log.info("Checking is Completed :" + this.Name + ":" + this.CurrentStatus);
 		if(this.CurrentStatus == Status.Completed) 
 			return true;
@@ -153,7 +151,6 @@ public class Step {
 			return false;
 	}
 	public void SetStatus(Status s) {
-		// TODO Auto-generated method stub
 		this.CurrentStatus = s;
 	}
 }

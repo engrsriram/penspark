@@ -49,7 +49,7 @@ public class GroupBy extends GroupByMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
       Column[] Colname2 = this.operGroupBy.toArray(new Column[0]);
       Column[] Agg = this.operAgg.toArray(new Column[0]);
 		log.info(">>>:"+Arrays.deepToString(Colname2));
@@ -61,4 +61,10 @@ public class GroupBy extends GroupByMeta implements  StepInterface
 		this.Output =s.groupBy(Colname2).agg(Agg[0]); 
 		 
 	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
+	}
+	
 }

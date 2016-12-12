@@ -47,7 +47,7 @@ public class TextFileInputMeta
 			    	
 			    }
 			    // date format:
-				this.options.put("dateFormat", "MM/DD/YYYY");
+				this.options.put("dateFormat", "MM/dd/yyyy");
 			    if(!(element.selectSingleNode("include_field").getText().isEmpty())){
 					this.includeHeader = element.selectSingleNode("include_field").getText();
 			    	// get filename and put it into one of the column

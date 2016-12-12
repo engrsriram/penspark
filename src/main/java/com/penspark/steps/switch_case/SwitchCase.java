@@ -50,7 +50,7 @@ public class SwitchCase extends SwitchCaseMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		// s.createOrReplaceTempView("ComOperation");
 		log.info("Working out of Switch case");
 		
@@ -68,5 +68,10 @@ public class SwitchCase extends SwitchCaseMeta implements  StepInterface
 			
         }	
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

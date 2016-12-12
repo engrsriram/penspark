@@ -51,7 +51,7 @@ public class SortRows extends SortRowsMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		
 		
         Column[] Colname2 = this.operMaster.toArray(new Column[0]);
@@ -60,5 +60,10 @@ public class SortRows extends SortRowsMeta implements  StepInterface
 		//sortExprs.`
 		 //this.Output =s.orderBy(Colname2); 
 		this.Output =s.orderBy(Colname2).cache();
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

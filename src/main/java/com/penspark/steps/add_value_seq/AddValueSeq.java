@@ -48,7 +48,7 @@ public class AddValueSeq extends AddValueSeqMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		//String operations.
 		//s.createOrReplaceTempView("StringOperatingtable");
 		// Column n = upper(s.col("Name"));
@@ -61,4 +61,9 @@ public class AddValueSeq extends AddValueSeqMeta implements  StepInterface
 		 this.Output =s.selectExpr(Colname2); 
 		 
 	}
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
+	}
+	
 }

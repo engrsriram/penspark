@@ -51,11 +51,16 @@ public class JavaFilter extends JavaFilterMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		 //s.createOrReplaceTempView("ComOperation");
 		 this.Output_true = s.filter(this.Filter_Condition);
 		 this.Output_false = s.except(this.Output_true);
         
         
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

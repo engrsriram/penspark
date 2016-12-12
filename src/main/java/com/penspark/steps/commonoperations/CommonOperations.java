@@ -44,8 +44,12 @@ public class CommonOperations extends CommonOperationsMeta implements  StepInter
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s) {
 		 s.createOrReplaceTempView("ComOperation");
         this.Output = spark.sql(this.SqlOpr);
+	}
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
+    	 
 	}
 }

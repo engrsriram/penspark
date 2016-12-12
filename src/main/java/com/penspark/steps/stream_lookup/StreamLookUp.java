@@ -29,7 +29,9 @@ public class StreamLookUp extends StreamLookUpMeta implements  StepInterface
 	}
 
 
-
+	public String fromStep(){
+		return this.fromStep1.toString();
+	}
 	@Override
 	public String getString() {
 		return "Get-ST-String Operation";
@@ -49,20 +51,27 @@ public class StreamLookUp extends StreamLookUpMeta implements  StepInterface
 	}
 
 	@Override
-	public void workout(Dataset<Row> s, SparkSession spark) {
+	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
 		//String operations.
 		//s.createOrReplaceTempView("StringOperatingtable");
 		// Column n = upper(s.col("Name"));
 		 String[] Colname = s.columns();
-		 this.oper = super.getalloperator(Colname);
+		 this.oper = super.getSelectItem(Colname);
 		  
 		String[] Colname2 = this.oper.toArray(new String[0]);
-		log.info(">>>:"+Arrays.deepToString(Colname2));
+		log.info("()>>:"+Arrays.deepToString(Colname2));
 		// String[] Colname1 = {"upper(Name) as Name" , "Class" , "upper(Dorm) as Dorm" , "upper(Room) as Room" , "GPA"}; 
-		 //this.Output =s.selectExpr(Colname2);
+		//this.Output =s.selectExpr(Colname2);
 		//JoinType d "left_outer";
-		Dataset<Row> right = null;
-		 this.Output = s.join(right,s.col("Jobname").equalTo(right.col("Job_name")) , "left_outer");
+		//Dataset<Row> right = null;
+		//Dataset<Row> tempTable = s.join(right,s.col("Jobname").equalTo(right.col("Job_name")) , "left_outer");
+		Dataset<Row> tempTable = s.join(l,getConditionOptr() , "left_outer");
+		this.Output = tempTable.selectExpr(Colname2).cache();
 		 
+	}
+	
+	@Override
+	public void workout(SparkSession spark, Dataset<Row> s) {
+    	 
 	}
 }

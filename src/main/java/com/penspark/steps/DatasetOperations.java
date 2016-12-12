@@ -1,5 +1,7 @@
 package com.penspark.steps;
 
+import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -17,6 +19,8 @@ public class DatasetOperations {
 		log.info("going for union operation");
 		if(a !=null && b != null){
 			log.info("As both data set are not null , making union of the data");
+			log.info("a:"+ Arrays.deepToString(a.columns()));
+			log.info("b:"+ Arrays.deepToString(b.columns()));
 			 t = a.union(b); 
 		}
 		else if (a != null)
@@ -31,7 +35,7 @@ public class DatasetOperations {
 		}
 		else
 		{
-			log.info("Both A and B are null so resulting in null dataset t");
+			log.info("Both A and B are null so resulting in null dataset 'Making Dry Run'");
 			t = b;
 		}
 		log.info("Union Operation Completed");

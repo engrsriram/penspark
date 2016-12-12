@@ -76,6 +76,9 @@ public class Player extends PlayerMeta {
 		 */
 		boolean still_working = false;
 		log.info("STARTED:All started working");
+		for (Step s : this.steps) {
+			log.info("Step Name: "+s.getName()+" Step type:"+s.getstepInType().toString());
+		}
 		do {
 			for (Step s : this.steps) {
 				if (!s.is_completed()) {
@@ -92,11 +95,14 @@ public class Player extends PlayerMeta {
 						// if Current step is as Lookup step , then i need to get both result and pass it as argument 
 						// that argument will be used as the 
 						if(s.getstepInType().equals(StepInType.Normal)){
-						s.step.workout(this.steps.GetCompletedResult(s.getName()) , spark);
+						s.step.workout(spark , this.steps.GetCompletedResult(s.getName()));
 						s.SetStatus(Status.Completed);
 						}
-						else {
-							s.step.workout(this.steps.GetCompletedResult(s.getName()) , spark);
+						else if(s.getstepInType().equals(StepInType.Lookup)) {
+							/// this is used only in terms of Loop
+							log.info("Getting Looping making. ");
+							s.step.workout(spark , this.steps.GetLeftResult(s.getName()) ,this.steps.GetRightResult(s.getName()));
+							log.info("Getting Looping Completed");
 							s.SetStatus(Status.Completed);
 						}
 						
@@ -106,7 +112,7 @@ public class Player extends PlayerMeta {
 					else if (s.getparentstep().size() == 0){
 
 						log.info("As its inital Step workingout on :" + s.getName());
-						s.step.workout(null , spark);
+						s.step.workout(spark, null, null);
 						s.SetStatus(Status.Completed);
 						log.info("working result:" + s.getStatus());
 

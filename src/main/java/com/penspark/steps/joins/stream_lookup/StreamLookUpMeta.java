@@ -1,4 +1,4 @@
-package com.penspark.steps.stream_lookup;
+package com.penspark.steps.joins.stream_lookup;
 
 import static org.apache.spark.sql.functions.col;
 
@@ -23,9 +23,8 @@ class StreamLookUpMeta  {
 	
 	Map<String, String> ConditionOptr = new HashMap<String, String>();
 	Map<String, String> SelectItem = new HashMap<String, String>();
-	String fromStep1 = null;
 	public StreamLookUpMeta(Element element) {
-		this.fromStep1 = element.elementText("from");
+		
 		@SuppressWarnings("unchecked")
 		List<Node> nodes1 = element.selectNodes("lookup/key" );
 		Iterator<Node> iter1=nodes1.iterator();
@@ -42,10 +41,8 @@ class StreamLookUpMeta  {
 			this.SelectItem.put(element2.elementText("name"), element2.elementText("rename") +"'");
 		}
 		
-		
-		
 	}
-	
+
 
 	public Column getConditionOptr()  {
 		//String[] ActualCol
