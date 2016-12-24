@@ -11,6 +11,7 @@ import org.apache.spark.sql.Row;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
+import com.esotericsoftware.minlog.Log;
 import com.penspark.inits.Step.StepInType;
 import com.penspark.steps.*;
 import com.penspark.steps.add_const.AddConst;
@@ -102,8 +103,10 @@ public class ListStep implements Iterable<Step> {
 			case "StreamLookup":				
 				//log.info("LookUp Setup on the way");
 				s.setStepInType(StepInType.Lookup);
-				s.step = new StreamLookUp(element);
 				
+				s.step = new StreamLookUp(element);
+				log.info("Frop:Step LookUP"+s.step.getfrom());
+				s.setFromStep(s.step.getfrom());
 				break;
 			default:
 				s.step = new transdummy(element);
@@ -150,42 +153,90 @@ public class ListStep implements Iterable<Step> {
     	return Result;
 	}
 	public Dataset<Row> GetLeftResult(String name) {
-		log.info("Get LEFT Result:"+name);
+		/*
+		 * This function will get output only from the "Non-fromStep" steps
+		 * those are combined , then they are all to flow though the next
+		*/ 
+		
+		
+		log.info("Get LEFT Result:START:"+name);
+		for(Step s : bList)
+    	{
+    		ArrayList<String> l = s.getchildstep();
+    		if(!l.isEmpty()){
+    			if(l.contains(name)  ){ // && (!s.is_fromstep_of(name))
+    				
+    					log.info(">'LeftResult'"+ s.getFromStep()+"//" + s.is_fromstep_of(name)+"<>" + name+"><"+l.toString());
+
+    			}
+    		}
+    	}
+		log.info("Get LEFT Result:END:"+name);
 		Dataset<Row> Result = null;
     	for(Step s : bList)
     	{
     		ArrayList<String> l = s.getchildstep();
-    		log.info(l.toString());
+    		log.info(l.toString() + "|" + s.Name );
     		if(!l.isEmpty()){
-    			if(l.contains(name)){
-    			log.info("Geting result Dataset of 'LeftResult'");
-    			Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
+    			if(l.contains(name)  ){ // && (!s.is_fromstep_of(name))
+    				
+    				if(!s.is_fromstep_of(name)){
+    					log.info("Geting result Dataset of 'LeftResult'" + s.is_fromstep_of(name));
+    					Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
+    					}
     			}
     		}
     	}
-    	log.info("getting Left Complete list result");
+    	log.info("Showing Left Result-->");
+    	Result.show();
     	return Result;
 	}
 	public Dataset<Row> GetRightResult(String name) {
 		log.info("Get RIGHT Result:"+name);
 		/// Or Otherwise Lookup Step
-		// find the correct right from step Dataset and pass it as result. 
+		// find the correct right from step Dataset and pass it as result.
+		
+		/*This function StreamLookUpMeta.fromStep1 name only should be picked up, 
+		 * 
+		 * 
+		 * if fromStep1 matches with the parent step , 
+		 * result of that step need to be used 
+		 * 
+		 * 
+		 */
 		
 		
+		for(Step s : bList)
+    	{
+    		ArrayList<String> l = s.getchildstep();
+    		if(!l.isEmpty()){
+    			if(l.contains(name)  ){ // && (!s.is_fromstep_of(name))
+    				
+    					log.info(">'RightResult'" + s.getFromStep()+"//" + s.is_fromstep_of(name)+"<>" + name+"><"+l.toString());
+
+    			}
+    		}
+    	}
 		
 		Dataset<Row> Result = null;
     	for(Step s : bList)
     	{
     		ArrayList<String> l = s.getchildstep();
+    		
+    		
     		log.info(l.toString());
     		if(!l.isEmpty()){
     			if(l.contains(name)){
-    			log.info("Geting result Dataset of 'RightResult'");
-    			Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
+    				if(s.is_fromstep_of(name)){
+    					log.info("Geting result Dataset of 'RightResult'");
+    					Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
+    			}
     			}
     		}
     	}
     	log.info("getting Right Complete List result");
+    	log.info("Showing Left Result-->");
+    	Result.show();
     	return Result;
 	}
 	public Dataset<Row> GetCompletedResult(String name, String name2) {

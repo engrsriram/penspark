@@ -66,4 +66,20 @@ public class XslTransformation extends XslTransformationMeta implements  StepInt
 	public void workout(SparkSession spark, Dataset<Row> s, Dataset<Row> l) {
     	 
 	}
+
+
+
+	@Override
+	public void setfrom(String N) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public String getfrom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

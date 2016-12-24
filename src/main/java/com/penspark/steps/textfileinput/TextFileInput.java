@@ -117,4 +117,18 @@ public class TextFileInput extends TextFileInputMeta implements  StepInterface
 		
 	}
 
+
+	@Override
+	public void setfrom(String N) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String getfrom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

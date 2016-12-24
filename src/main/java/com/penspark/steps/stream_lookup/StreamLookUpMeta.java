@@ -49,14 +49,14 @@ class StreamLookUpMeta  {
 
 	public Column getConditionOptr()  {
 		//String[] ActualCol
-		Column n = null;
+		Column n = null ;
 		//return this.ConditionOptr;
 		Iterator<?> it = this.ConditionOptr.entrySet().iterator();
 	    while (it.hasNext()) {
 	        @SuppressWarnings("rawtypes")
 			Map.Entry pair = (Map.Entry)it.next();
 	       // System.out.println(pair.getKey() + " : " + pair.getValue());
-	        if(n!=null)
+	        if(n == null)
 	        	{
 	        	n = col(pair.getKey().toString()).equalTo(col(pair.getValue().toString()));
 	        	}

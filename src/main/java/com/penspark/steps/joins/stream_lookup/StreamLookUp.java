@@ -72,4 +72,20 @@ public class StreamLookUp extends StreamLookUpMeta implements  StepInterface
 	public void workout(SparkSession spark, Dataset<Row> s) {
     	 
 	}
+
+
+
+	@Override
+	public void setfrom(String N) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public String getfrom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

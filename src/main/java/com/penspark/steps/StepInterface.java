@@ -21,7 +21,7 @@ public interface  StepInterface {
 	public Dataset<Row> Input = null;
 	public Dataset<Row> Output = null;
 	
-	
+	String Right_side_step = "";
 	Map<String, String> In_Column_List = null ;
 	Map<String, String> Out_Column_List = null ;
 	
@@ -30,6 +30,11 @@ public interface  StepInterface {
 //	public void workout(Dataset<Row> l,Dataset<Row> r, SparkSession spark);
 //	public void workout(SparkSession spark, Dataset<Row>... l);
 	//public Dataset<Row> getOutput();
+	
+	public void setfrom(String N);
+	public String getfrom();
+	
+	
 	public void Setinput(Dataset<Row> s);
 
 	public String getString();

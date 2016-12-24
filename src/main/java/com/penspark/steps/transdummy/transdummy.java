@@ -46,4 +46,16 @@ public class transdummy implements  StepInterface
 		this.Input = s;
 		
 	}
+
+	@Override
+	public void setfrom(String N) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getfrom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

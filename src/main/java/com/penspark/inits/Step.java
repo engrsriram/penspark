@@ -36,6 +36,7 @@ public class Step {
 	//Set<String> childstep = new HashSet<String>();
 	ArrayList<String> childstep = new ArrayList<String>();
 
+	String fromStep = new String();
 	Boolean Distribute = false;
 	//Dataset<Row> Input;
 	//Dataset<Row> Output;
@@ -143,6 +144,36 @@ public class Step {
 	public Status getStatus() {
 		return this.CurrentStatus;
 	}
+	
+	public String getFromStep()
+	{
+		return this.fromStep;
+	}
+	public void setFromStep(String name)
+	{
+		this.fromStep = new String(name);
+		
+	}
+	public boolean is_fromstep_of(String Name){
+		try{
+		String e = this.fromStep.toString();
+	
+		log.info(">>>>>->"+ Name+">"+e.toString());
+		return e.equals(Name);
+
+		} 
+		catch (Exception e) {
+			return false;
+		}
+		
+		
+	}
+	//public void set_as_fromstep_of(String Name){
+		//StepInterface.Right_side_step = Name;
+		
+		//this.step.setfrom(Name);
+		
+	//}	
 	public boolean is_completed() {
 		log.info("Checking is Completed :" + this.Name + ":" + this.CurrentStatus);
 		if(this.CurrentStatus == Status.Completed) 

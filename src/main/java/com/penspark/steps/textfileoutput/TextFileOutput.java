@@ -73,4 +73,16 @@ public class TextFileOutput extends TextFileOutputMeta  implements  StepInterfac
 		this.Input = s;
 		
 	}
+
+	@Override
+	public void setfrom(String N) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getfrom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
