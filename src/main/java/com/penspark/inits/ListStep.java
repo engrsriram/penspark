@@ -104,9 +104,11 @@ public class ListStep implements Iterable<Step> {
 				//log.info("LookUp Setup on the way");
 				s.setStepInType(StepInType.Lookup);
 				
+				log.info("{}{}{}"+element.selectSingleNode("from").getText());
 				s.step = new StreamLookUp(element);
-				log.info("Frop:Step LookUP"+s.step.getfrom());
-				s.setFromStep(s.step.getfrom());
+				s.setFromStep(element.selectSingleNode("from").getText());
+				log.info("Frop:Step LookUP:"+s.getFromStep());
+				
 				break;
 			default:
 				s.step = new transdummy(element);
@@ -152,47 +154,34 @@ public class ListStep implements Iterable<Step> {
     	log.info("getting complete result");
     	return Result;
 	}
-	public Dataset<Row> GetLeftResult(String name) {
+	public Dataset<Row> GetRightResult(Step RightStep) {
 		/*
 		 * This function will get output only from the "Non-fromStep" steps
 		 * those are combined , then they are all to flow though the next
 		*/ 
 		
-		
-		log.info("Get LEFT Result:START:"+name);
+		Dataset<Row> Result = null;
+		//log.info("Get LEFT Result:START:"+name);
 		for(Step s : bList)
     	{
     		ArrayList<String> l = s.getchildstep();
     		if(!l.isEmpty()){
-    			if(l.contains(name)  ){ // && (!s.is_fromstep_of(name))
-    				
-    					log.info(">'LeftResult'"+ s.getFromStep()+"//" + s.is_fromstep_of(name)+"<>" + name+"><"+l.toString());
-
+    			if(l.contains(RightStep.getName())  ){ // && (!s.is_fromstep_of(name))
+    				    log.info(">'IsIt From Step:RightStep:':"+s.getName()+":"+RightStep.getFromStep()+":"+ s.getName().equals(RightStep.getFromStep()));
+    					//log.info(">'LeftResult'"+ s.getFromStep() +"//" + s.is_fromstep_of(name)+"<>" + name+"><"+l.toString());
+    				    if(s.getName().equals(RightStep.getFromStep())){
+    				    Result = DatasetOperations.combineset(Result , s.step.getOutput(s.getName()));
+    				    }
     			}
     		}
     	}
-		log.info("Get LEFT Result:END:"+name);
-		Dataset<Row> Result = null;
-    	for(Step s : bList)
-    	{
-    		ArrayList<String> l = s.getchildstep();
-    		log.info(l.toString() + "|" + s.Name );
-    		if(!l.isEmpty()){
-    			if(l.contains(name)  ){ // && (!s.is_fromstep_of(name))
-    				
-    				if(!s.is_fromstep_of(name)){
-    					log.info("Geting result Dataset of 'LeftResult'" + s.is_fromstep_of(name));
-    					Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
-    					}
-    			}
-    		}
-    	}
-    	log.info("Showing Left Result-->");
+	
+    	log.info("Showing Rightt Result-->");
     	Result.show();
     	return Result;
 	}
-	public Dataset<Row> GetRightResult(String name) {
-		log.info("Get RIGHT Result:"+name);
+	public Dataset<Row> GetLeftResult(Step LeftStep) {
+		//log.info("Get RIGHT Result:"+name);
 		/// Or Otherwise Lookup Step
 		// find the correct right from step Dataset and pass it as result.
 		
@@ -205,36 +194,24 @@ public class ListStep implements Iterable<Step> {
 		 * 
 		 */
 		
-		
+		Dataset<Row> Result = null;
 		for(Step s : bList)
     	{
     		ArrayList<String> l = s.getchildstep();
     		if(!l.isEmpty()){
-    			if(l.contains(name)  ){ // && (!s.is_fromstep_of(name))
+    			if(l.contains(LeftStep.getName())  ){ // && (!s.is_fromstep_of(name))
     				
-    					log.info(">'RightResult'" + s.getFromStep()+"//" + s.is_fromstep_of(name)+"<>" + name+"><"+l.toString());
-
+    					//log.info(">'RightResult'" + s.getFromStep() +"/" + s.is_fromstep_of(name)+"<>" + name+"><"+l.toString());
+    				log.info(">'IsIt From Step:LeftStep:':"+s.getName()+":"+LeftStep.getFromStep()+":"+ s.getName().equals(LeftStep.getFromStep()));
+				    if(!s.getName().equals(LeftStep.getFromStep())){
+    				    Result = DatasetOperations.combineset(Result , s.step.getOutput(s.getName()));
+    				    }
+    
     			}
     		}
     	}
 		
-		Dataset<Row> Result = null;
-    	for(Step s : bList)
-    	{
-    		ArrayList<String> l = s.getchildstep();
-    		
-    		
-    		log.info(l.toString());
-    		if(!l.isEmpty()){
-    			if(l.contains(name)){
-    				if(s.is_fromstep_of(name)){
-    					log.info("Geting result Dataset of 'RightResult'");
-    					Result = DatasetOperations.combineset(Result , s.step.getOutput(name));
-    			}
-    			}
-    		}
-    	}
-    	log.info("getting Right Complete List result");
+    	log.info("getting Left Complete List result");
     	log.info("Showing Left Result-->");
     	Result.show();
     	return Result;

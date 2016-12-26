@@ -58,8 +58,8 @@ public class StreamLookUp extends StreamLookUpMeta implements  StepInterface
 		//String operations.
 		//s.createOrReplaceTempView("StringOperatingtable");
 		// Column n = upper(s.col("Name"));
-		 String[] Colname = R.columns();
-		 this.oper = super.getSelectItem(Colname);
+		 String[] Colname = l.columns();
+		 //this.oper = super.getSelectItem(Colname);
 		  
 		String[] Colname2 = this.oper.toArray(new String[0]);
 		log.info("()>>1:"+Arrays.deepToString(Colname2));
@@ -68,16 +68,29 @@ public class StreamLookUp extends StreamLookUpMeta implements  StepInterface
 		//JoinType d "left_outer";
 		//Dataset<Row> right = null;
 		//Dataset<Row> tempTable = s.join(right,s.col("Jobname").equalTo(right.col("Job_name")) , "left_outer");
-		Column result = getConditionOptr();
+		String result = super.getConditionOptr();
 		log.info("()>>2:"+result.toString());
-		R.show();
-		l.show();
-		log.info("@@"+ R.columns().length);
-		log.info("@@"+ l.columns().length);
-		try {
 		
-		Dataset<Row> tempTable = R.join(l,R.col("color").equalTo(l.col("color")), "left_outer");
-		this.Output = tempTable.selectExpr("name","color","g").cache();
+		ArrayList<String> D_remover = super.DuplicateRemover();
+		String[] Duplicate_r = D_remover.toArray(new String[0]);
+		log.info("()>>3:"+Arrays.deepToString(Duplicate_r));
+		Dataset<Row> R1 = R.dropDuplicates(Duplicate_r);
+		R1.show();
+		R1.createOrReplaceTempView("R");
+		l.show();
+		l.createOrReplaceTempView("L");
+		log.info("@@"+ Arrays.deepToString(R.columns()));
+		log.info("@@"+ Arrays.deepToString(l.columns()));
+		try {
+		//R.col("color").equalTo(l.col("color"))
+		//Dataset<Row> tempTable = R.join(l,result, "left_outer");
+		
+		//log.info("::"+ Arrays.deepToString(tempTable.columns()));
+		//tempTable.show();
+		String sqlText = "SELECT " + super.getSelectItem(Colname) +" "
+				+ "FROM L LEFT OUTER JOIN R ON " + this.getConditionOptr() ;
+		this.Output = spark.sql(sqlText);
+		//this.Output = tempTable.selectExpr("name","color","g").cache();
 		}
 		catch (Exception e) {
 			log.error("ERROR MESSAGE:>>"+ e.toString()+ " <>", e);

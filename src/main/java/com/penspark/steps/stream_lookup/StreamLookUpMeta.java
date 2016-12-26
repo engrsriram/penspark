@@ -23,23 +23,23 @@ class StreamLookUpMeta  {
 	
 	Map<String, String> ConditionOptr = new HashMap<String, String>();
 	Map<String, String> SelectItem = new HashMap<String, String>();
-	String fromStep1 = null;
+	String fromStep1;
 	public StreamLookUpMeta(Element element) {
 		this.fromStep1 = element.elementText("from");
 		@SuppressWarnings("unchecked")
-		List<Node> nodes1 = element.selectNodes("lookup/key" );
-		Iterator<Node> iter1=nodes1.iterator();
+		List<Node> lookupkey = element.selectNodes("lookup/key" );
+		Iterator<Node> iter1=lookupkey.iterator();
 		while(iter1.hasNext()){
 			Element element2=(Element)iter1.next();
-			this.ConditionOptr.put(element2.elementText("name"), element2.elementText("field") +"'");
+			this.ConditionOptr.put(element2.elementText("name"), element2.elementText("field") );///+"'");
 		}
 		
 		@SuppressWarnings("unchecked")
-		List<Node> nodes11 = element.selectNodes("lookup/value" );
-		Iterator<Node> iter11=nodes11.iterator();
+		List<Node> lookupvalue = element.selectNodes("lookup/value" );
+		Iterator<Node> iter11= lookupvalue.iterator();
 		while(iter11.hasNext()){
 			Element element2=(Element)iter11.next();
-			this.SelectItem.put(element2.elementText("name"), element2.elementText("rename") +"'");
+			this.SelectItem.put(element2.elementText("name"), element2.elementText("rename") );///+"'");
 		}
 		
 		
@@ -47,45 +47,79 @@ class StreamLookUpMeta  {
 	}
 	
 
-	public Column getConditionOptr()  {
+	public String getConditionOptr()  {
 		//String[] ActualCol
-		Column n = null ;
+		String n = new String();
 		//return this.ConditionOptr;
 		Iterator<?> it = this.ConditionOptr.entrySet().iterator();
 	    while (it.hasNext()) {
 	        @SuppressWarnings("rawtypes")
 			Map.Entry pair = (Map.Entry)it.next();
 	       // System.out.println(pair.getKey() + " : " + pair.getValue());
-	        if(n == null)
+	        if(n.isEmpty())
 	        	{
-	        	n = col(pair.getKey().toString()).equalTo(col(pair.getValue().toString()));
+	        	//n = col(pair.getKey().toString()).equalTo(col(pair.getValue().toString()));
+	        	 n = "L."+pair.getKey().toString() + " = " + "R."+ pair.getValue().toString() ; 
 	        	}
 	        else
 	        	{
-	        	n = col(pair.getKey().toString()).equalTo(col(pair.getValue().toString())).and(n);
+	        	//n = col(pair.getKey().toString()).equalTo(col(pair.getValue().toString())).and(n);
+	        	n = "L."+ pair.getKey().toString() + " = " + "R."+ pair.getValue().toString() +" AND "+ n;
 	        	}
 	    }
 		return n;
 	}
-	public ArrayList<String>  getSelectItem(String[] ActualCol)  {
+	
+	public ArrayList<String> DuplicateRemover()  {
+		ArrayList<String> n = new ArrayList<String>();
+		Iterator<?> it = this.ConditionOptr.entrySet().iterator();
+	    while (it.hasNext()) {
+	        @SuppressWarnings("rawtypes")
+			Map.Entry pair = (Map.Entry)it.next();
+	         n.add( pair.getValue().toString() ); 
+	    }
+		return n;
+	}
+	
+	public String  getSelectItem(String[] ActualCol)  {
 
-		ArrayList<String> result = new ArrayList<String>();
+		//ArrayList<String> result = new ArrayList<String>();
+		String result = new String();
 		//return this.SelectItem;
 		//result.;
 		for(String A : ActualCol){
-			result.add(A);
+			if(result.isEmpty()){
+			result = result.concat("L."+ A +" AS "+ A + " ");
+			}
+			else {
+				result = result.concat(", L."+ A +" AS "+ A + " ");
+			}
 		}
 		Iterator<?> it = this.SelectItem.entrySet().iterator();
 	    while (it.hasNext()) {
 	        @SuppressWarnings("rawtypes")
 			Map.Entry pair = (Map.Entry)it.next();
-	        System.out.println(pair.getKey() + " : " + pair.getValue());
+	        System.out.println(pair.getKey() + ":" + pair.getValue());
 	        if(pair.getValue().toString().trim().length() == 0){
-	            result.add(pair.getKey().toString());
+	        	if(result.isEmpty()){
+	            result = result.concat(" " + pair.getKey().toString());
+	        	 }
+	        	else{
+	        		result = result.concat(", " + pair.getKey().toString());
+	        	}
 	        }else{
-	        	result.add(pair.getKey().toString() + " AS " + pair.getValue().toString());
+	        	if(result.isEmpty()){
+	        	result = result.concat(" R." +pair.getKey().toString() + " AS " + pair.getValue().toString());
+	        	}
+	        	else
+	        	{
+	        		result = result.concat(", R." +pair.getKey().toString() + " AS " + pair.getValue().toString());
+	        	}
 	        }
 	    }
+	    log.info("SELECT PATTERN : "+ result);
+	    
+	    
 		return result;
 	}
 }

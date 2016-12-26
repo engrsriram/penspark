@@ -36,7 +36,7 @@ public class Step {
 	//Set<String> childstep = new HashSet<String>();
 	ArrayList<String> childstep = new ArrayList<String>();
 
-	String fromStep = new String();
+	String fromStep;
 	Boolean Distribute = false;
 	//Dataset<Row> Input;
 	//Dataset<Row> Output;
@@ -147,18 +147,19 @@ public class Step {
 	
 	public String getFromStep()
 	{
-		return this.fromStep;
+		return fromStep;
 	}
-	public void setFromStep(String name)
+	public void setFromStep(String thi)
 	{
-		this.fromStep = new String(name);
+		fromStep = thi;
 		
 	}
 	public boolean is_fromstep_of(String Name){
+		log.info("fromStep:" + this.fromStep);
 		try{
-		String e = this.fromStep.toString();
+		String e = this.fromStep;
 	
-		log.info(">>>>>->"+ Name+">"+e.toString());
+		log.info(">>>>>->"+ Name+">"+e);
 		return e.equals(Name);
 
 		} 

@@ -101,7 +101,7 @@ public class Player extends PlayerMeta {
 						else if(s.getstepInType().equals(StepInType.Lookup)) {
 							/// this is used only in terms of Loop
 							log.info("Getting Looping making. ");
-							s.step.workout(spark , this.steps.GetLeftResult(s.getName()) ,this.steps.GetRightResult(s.getName()));
+							s.step.workout(spark , this.steps.GetRightResult(s) ,this.steps.GetLeftResult(s));
 							log.info("Getting Looping Completed");
 							s.SetStatus(Status.Completed);
 						}
