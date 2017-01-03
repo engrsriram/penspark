@@ -50,7 +50,6 @@ public class StreamLookUp extends StreamLookUpMeta implements  StepInterface
 	public void Setinput(Dataset<Row> s) {
 		// TODO Auto-generated method stub
 		this.Input = s;
-		
 	}
 
 	@Override
@@ -95,24 +94,17 @@ public class StreamLookUp extends StreamLookUpMeta implements  StepInterface
 		catch (Exception e) {
 			log.error("ERROR MESSAGE:>>"+ e.toString()+ " <>", e);
 		}
-		
-		 
 	}
-	
 	@Override
 	public void workout(SparkSession spark, Dataset<Row> s) {
     	 
 	}
-
-
 	@Override
 	public void setfrom(String N) {
 		// TODO Auto-generated method stub
 		log.error("Setting fromstep1:"+ N);
 		this.fromStep1 = N;
 	}
-
-
 	@Override
 	public String getfrom() {
 		// TODO Auto-generated method stub
