@@ -11,20 +11,12 @@ for those who don't know about pentaho?
 its an ETL tool , similar to infomatica etc
 i am using 4.3 version for this development.[available in this link](https://github.com/pentaho/pentaho-kettle/tree/4.3)
 
-### Application Usage:
+### Application preparation:
 
-`mvn install`
-
-`mvn package`
-
-
-### System preparation
-
-you need to have 
-
-	```mvn package
-	
+	$git clone https://github.com/engrsriram/penspark
+	mvn install
+	mvn package
 	cd target/
-	java -cp lib/*;app-0.0.1-SNAPSHOT.jar com.penspark.App -file="E:\pentaho_code\main.ktr"```
+	java -cp lib/*;app-0.0.1-SNAPSHOT.jar com.penspark.App -file="E:\pentaho_code\main.ktr"
 	
-	Assuming "E:\pentaho_code\main.ktr" is you ETL logic resides. 
+Assuming "E:\pentaho_code\main.ktr" is you pentaho ETL logic resides. 
